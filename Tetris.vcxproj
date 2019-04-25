@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="Goto.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="TetrisDB.h" />
     <ClInclude Include="TetrisGame.h" />
   </ItemGroup>
   <ItemGroup>

@@ -5,10 +5,12 @@
 
 int main()
 {
-
-	while(1)
+	TetrisGame::CreateInstance();
+	TetrisGame::GetInstance()->ScreenReset();
+	while(TetrisGame::GetInstance()->Defeat() == false)
 	{
-		//TetrisGame.Update();
-		//TetrisGame.Render();
+		TetrisGame::GetInstance()->Update();
+		TetrisGame::GetInstance()->Render();
 	}
+	return 0;
 }

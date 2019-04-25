@@ -12,6 +12,9 @@
 #include <iostream>
 #include <conio.h>
 #include <Windows.h>
+#include <ctime>
+#include <string>
+#include <cassert>
 
 using namespace std;
 #endif //PCH_H
