@@ -3,6 +3,8 @@
 #include "Goto.h"
 #include "TetrisDB.h"
 
+#pragma warning(disable:4996)
+
 TetrisGame *TetrisGame::Instance = nullptr;
 
 TetrisGame * TetrisGame::GetInstance()
@@ -42,9 +44,12 @@ void TetrisGame::Render()
 void TetrisGame::Update()
 {
 
-	SettingBox(CurrentBox, None, CurrentBoxType);
+	SettingBox(CurrentBox, Transform, CurrentBoxType);
 	SettingBox(NextBox, None, NextBoxType);
-	DeleteBox();
+	if(CheckBox())
+	{
+		DeleteBox();
+	}
 }
 
 void TetrisGame::DeleteBox()
@@ -87,22 +92,46 @@ void TetrisGame::SettingBox(int Box[BoxSize][BoxSize],int Change, int BoxType)
 		switch (BoxType)
 		{
 		case LType:
-			BoxCopy(Box, LTypeBox[Change]);
+			BoxCopy(Box, BoxDB[BoxType-1][Change]);
 			break;
 		case JType:
-			BoxCopy(Box, JTypeBox[Change]);
+			BoxCopy(Box, BoxDB[BoxType - 1][Change]);
 			break;
 		case OType:
-			BoxCopy(Box, OTypeBox[Change]);
+			BoxCopy(Box, BoxDB[BoxType - 1][Change]);
 			break;
 		case TType:
-			BoxCopy(Box, TTypeBox[Change]);
+			BoxCopy(Box, BoxDB[BoxType - 1][Change]);
 			break;
 		case IType:
-			BoxCopy(Box, ITypeBox[Change]);
+			BoxCopy(Box, BoxDB[BoxType - 1][Change]);
 			break;
 		}
 	}
+}
+
+bool TetrisGame::CheckBox()
+{
+	for (int i = 0; i < BoxSize; i++)
+	{
+		for (int j = 0; j < BoxSize; j++)
+		{
+			if (CurrentBox[i][j] == Screen[CurrentX + i + MoveX][CurrentY + j + 1] && 1 == CurrentBox[i][j])
+			{
+				//CURRENT
+				return false;
+			}
+		}
+	}
+	for (int i = 0; i < BoxSize; i++)
+	{
+		for (int j = 0; j < BoxSize; j++)
+		{
+			CurrentBox[i][j] = Screen[CurrentX + i][CurrentY + j];
+			CurrentBox[i][j] = Screen[CurrentX + i + MoveX][CurrentY + j + 1];
+		}
+	}
+	return true;
 }
 
 void TetrisGame::BoxCopy(int Box[BoxSize][BoxSize], int Box2[BoxSize][BoxSize])
@@ -116,26 +145,24 @@ void TetrisGame::BoxCopy(int Box[BoxSize][BoxSize], int Box2[BoxSize][BoxSize])
 	}
 }
 
-void TetrisGame::KeyDown(char KeyOn)
+void TetrisGame::KeyDown()
 {
+	char KeyOn;
+	KeyOn = getch();
 	switch (KeyOn)
 	{
 	case 'W':
 	case 'w':
+		Transform = (Transform++)%BoxSize;
 		break;
 	case 'D' :
 	case 'd' :
+		MoveX = 1;
 		break;
 	case 'A':
 	case 'a':
+		MoveX = -1;
 		break;
-	case 's':
-	case 'S':
-		break;
-	case 'Q':
-	case 'q':
-		break;
-		
 	}
 }
 

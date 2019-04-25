@@ -14,28 +14,37 @@ private:
 		//Box Type
 		LType = 1,
 		JType,
-		OType,
 		TType,
+		OType,
 		IType,
+
+		//StartPosition
+		StartX = 5,
+		StartY = 0,
 	};
 	//Index
-	int m_nScore = 0;
+	int m_nScore = 0;		
 	int Screen[ScreenHeight][ScreenWidth] = { None, };
 	int NextBox[BoxSize][BoxSize];
 	int CurrentBox[BoxSize][BoxSize];
 	int NextBoxType = 0;
 	int CurrentBoxType = 0;
+	int CurrentX = 0;
+	int CurrentY = 0;
+	int MoveX = 0;
+	int Transform = 0;
 	//ÇÔ¼öµé
 	void BoxCopy(int Box[BoxSize][BoxSize], int Box2[BoxSize][BoxSize]);
 	void DeleteBox();
 	void SettingBox(int Box[BoxSize][BoxSize],int Change,int BoxType);
+	bool CheckBox();
 public:
 	void Render();
 	void Update();
 	bool Defeat();
 	
 
-	void KeyDown(char KeyOn);
+	void KeyDown();
 	void ScreenReset();
 
 	//SingleTon
